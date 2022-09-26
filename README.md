@@ -1,3 +1,3 @@
 # Material for Students
 
-1. Interactive algorithms
+1. Tracing of programs
