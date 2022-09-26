@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<h1> Converting days into years </h1>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link href='https://e42.dev/codecheck/css/codecheck_tracer.css' rel='stylesheet' type='text/css'/>  <title>Converting days into years</title>
+</head>
+<body>
+    <div class='codecheck_tracer'>
+      <script type='module'>//<![CDATA[
+import { addExercise, Code, Frame } from 'https://e42.dev/codecheck/script/codecheck_tracer.js'
+addExercise(function*(sim, state) {
+
+    if (state === undefined) { 
+    state = {}
+    state.days = sim.randInt(0,366)
+  
+}
+
+
+const code = sim.add(0, 0, new Code(`
+int days = ${state.days};
+int years = (days / 365);   // Ignoring leap year
+int weeks = (days % 365) / 7;
+days  = days - ((years * 365) + (weeks * 7));
+
+`))
+const vars = sim.add(0, 3, new Frame())
+yield sim.start(state)
+
+vars.days = state.days
+yield sim.next('Initialized a')
+
+code.go(2) 
+vars.years = yield sim.ask(vars.days/365)
+code.go(3)
+vars.weeks = yield sim.ask((vars.days % 365) / 7)
+code.go(4)
+vars.days = yield sim.ask(vars.days - ((vars.years * 365) + (vars.weeks * 7)))
+
+})
+// ]]>
+      </script>
+  </div>
+</body>
+</html>

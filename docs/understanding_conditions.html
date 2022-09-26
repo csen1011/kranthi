@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<h1> Understanding conditions </h1>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link href='https://e42.dev/codecheck/css/codecheck_tracer.css' rel='stylesheet' type='text/css'/>  <title>Conditions</title>
+</head>
+<body>
+    <div class='codecheck_tracer'>
+      <script type='module'>//<![CDATA[
+import { addExercise, Code, Frame } from 'https://e42.dev/codecheck/script/codecheck_tracer.js'
+addExercise(function*(sim, state) {
+
+    if (state === undefined) { 
+  state = {}
+  state.age = sim.randInt(18,50)
+}
+
+const code = sim.add(0, 0, new Code(`
+int age = ${state.age}
+if(age < 31)
+{
+    printf("eligible")
+}
+
+`))
+const vars = sim.add(0, 10, new Frame())
+yield sim.start(state)
+vars.age = state.age
+code.go(2)
+yield sim.next(' ')
+if(vars.age < 31)
+{
+    
+    code.go(4)
+    yield sim.ask(vars.age)
+}
+code.go(5)
+ 
+
+
+
+})
+
+
+// ]]>
+      </script>
+  </div>
+</body>
+</html>

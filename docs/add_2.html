@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<h1> Observing the addition of 2 numbers </h1>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link href='https://e42.dev/codecheck/css/codecheck_tracer.css' rel='stylesheet' type='text/css'/>  <title>Addition of 2 numbers</title>
+</head>
+<body>
+    <div class='codecheck_tracer'>
+      <script type='module'>//<![CDATA[
+import { addExercise, Code, Frame } from 'https://e42.dev/codecheck/script/codecheck_tracer.js'
+addExercise(function*(sim, state) {
+
+if (state === undefined) { 
+  state = {}
+  state.a = sim.randInt(0, 9)
+
+  state.b = sim.randInt(0,9)
+  
+}
+
+const code = sim.add(0, 0, new Code(`
+int a = ${state.a};
+int b = ${state.b};
+int c = a+b;
+`))
+const vars = sim.add(0, 3, new Frame())
+yield sim.start(state)
+
+vars.a = state.a
+yield sim.next('Initialized a') // Wait for the student to hit the Next button
+code.go(2) 
+vars.b = state.b
+yield sim.next('Initialized b')
+code.go(3)
+vars.c = yield sim.ask(vars.a + vars.b)
+
+})
+// ]]>
+      </script>
+  </div>
+</body>
+</html>
